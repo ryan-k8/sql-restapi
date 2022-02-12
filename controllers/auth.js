@@ -2,6 +2,7 @@ const querystring = require("query-string");
 const axios = require("axios");
 
 const { signToken, verifyToken } = require("../util/jwt");
+const User = require("../models/user");
 
 function getGoogleOauth2URL() {
   const redirectURI = "auth/google";
@@ -80,9 +81,14 @@ exports.handleOauth2Login = async (req, res, next) => {
       }
     );
 
-    /**
-     * TODO:if not exists user, create one in db (async)
-     */
+    User.findOrCreate({
+      where: { email: userProfileData.email },
+      defaults: {
+        name: userProfileData.name,
+        email: userProfileData.email,
+        profileImage: userProfileData.picture,
+      },
+    });
 
     const token = await signToken(userProfileData.email, "1h");
 
