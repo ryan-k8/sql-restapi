@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 4000;
 
 async function main() {
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
     const server = http.createServer(app);
     server.listen(PORT, () => {
       console.log("server started");

@@ -1,23 +1,23 @@
 const { ExpressError } = require("../util/err");
 const { verifyToken } = require("../util/jwt");
 
+const User = require("../models/user");
+
 module.exports = async (req, res, next) => {
   try {
-    if (!req.headers["Authorization"]) {
+    if (!req.headers["authorization"]) {
       throw new ExpressError("unauthorized", 401);
     }
+    const bearerToken = req.headers["authorization"].split(" ");
+    const token = bearerToken[1];
 
-    const tokenType = req.headers["Authorization"].split(" ")[0];
+    const { id: userEmail } = await verifyToken(token);
 
-    if (tokenType != "Bearer") {
-      throw new ExpressError("Bad Request", 400);
-    }
-
-    const token = req.headers["Authorization"].split(" ")[1];
-
-    const { id } = await verifyToken(token);
-
-    req.user = { id: id };
+    req.user = await User.findOne({
+      where: {
+        email: userEmail,
+      },
+    });
 
     next();
   } catch (err) {

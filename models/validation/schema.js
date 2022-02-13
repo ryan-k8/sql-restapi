@@ -5,7 +5,6 @@ const userSchema = joi
     name: joi.string().required(),
     email: joi.string().email().required(),
     profileImage: joi.string().required(),
-    c,
   })
   .unknown();
 
@@ -35,4 +34,4 @@ const commentSchema = joi
   })
   .unknown();
 
-module.exports = { userSchema,categorySchema,expenseSchema,commentSchema };
+module.exports = { userSchema, categorySchema, expenseSchema, commentSchema };

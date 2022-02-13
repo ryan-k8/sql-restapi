@@ -27,8 +27,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
-          const errmsg =
-            err.name === "JsonWebTokenError" ? "unauthorized" : err.message;
+          const errmsg = err.name === "JsonWebTokenError" ? "unauthorized" : err.message;
           reject(new ExpressError(errmsg, 401));
         }
         resolve(decoded);

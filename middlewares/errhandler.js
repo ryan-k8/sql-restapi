@@ -9,6 +9,14 @@ module.exports = async (err, req, res, next) => {
         },
       });
     }
+    if (err.isJoi === true) {
+      return res.status(422).json({
+        error: {
+          detail: err.message,
+        },
+      });
+    }
+
     res.status(500).json({
       error: {
         detail: "internal server error",
