@@ -2,6 +2,8 @@ const { ExpressError } = require("../util/err");
 const { verifyToken } = require("../util/jwt");
 
 const User = require("../models/user");
+const Category = require("../models/category");
+const Expense = require("../models/expense");
 
 module.exports = async (req, res, next) => {
   try {
@@ -17,6 +19,7 @@ module.exports = async (req, res, next) => {
       where: {
         email: userEmail,
       },
+      include: [Category, Expense],
     });
 
     next();

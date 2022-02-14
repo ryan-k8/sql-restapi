@@ -15,6 +15,9 @@ const CategoryItem = require("./models/categoryItem");
 User.hasMany(Category);
 Category.belongsTo(User, { onDelete: "CASCADE" });
 
+User.hasMany(Expense);
+Expense.belongsTo(User, { onDelete: "CASCADE" });
+
 Category.hasMany(Expense);
 Expense.belongsToMany(Category, { through: CategoryItem });
 Category.belongsToMany(Expense, { through: CategoryItem });
@@ -24,6 +27,7 @@ Comment.belongsTo(Expense, { constraints: true, onDelete: "CASCADE" });
 
 const authRoutes = require("./routes/auth");
 const categoryRoutes = require("./routes/category");
+const expenseRoutes = require("./routes/expense");
 const errhandler = require("./middlewares/errhandler");
 
 const app = express();
@@ -35,6 +39,7 @@ app.use(morgan("dev"));
 
 app.use("/auth", authRoutes);
 app.use("/categories", categoryRoutes);
+app.use("/expenses", expenseRoutes);
 
 app.use("/", (req, res, next) => {
   res.status(404).json({

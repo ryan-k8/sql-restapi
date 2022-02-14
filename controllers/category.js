@@ -18,11 +18,10 @@ exports.getCategories = async (req, res, next) => {
 exports.getCategory = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { id: userId } = req.user;
     const category = await Category.findByPk(id);
 
-    if (category.userId !== userId) {
-      throw new ExpressError("forbidden", 403);
+    if (!category) {
+      return res.json([]);
     }
 
     res.status(200).json(category);
@@ -66,6 +65,7 @@ exports.updateCategory = async (req, res, next) => {
     });
 
     const category = await Category.findByPk(id);
+
     category.name = result.name;
     category.limits = result.limits;
     await category.save();
