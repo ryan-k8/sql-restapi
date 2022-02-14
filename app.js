@@ -28,6 +28,7 @@ Comment.belongsTo(Expense, { constraints: true, onDelete: "CASCADE" });
 const authRoutes = require("./routes/auth");
 const categoryRoutes = require("./routes/category");
 const expenseRoutes = require("./routes/expense");
+const commentRoutes = require("./routes/comment");
 const errhandler = require("./middlewares/errhandler");
 
 const app = express();
@@ -40,6 +41,7 @@ app.use(morgan("dev"));
 app.use("/auth", authRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/expenses", expenseRoutes);
+app.use("/comments", commentRoutes);
 
 app.use("/", (req, res, next) => {
   res.status(404).json({
